@@ -4,6 +4,10 @@ We're using go on the backend, and vue on the front.
 
 Using mongo for the database.
 
+Reference
+---
+* [MongoDB tutorial] (https://www.youtube.com/watch?v=pWbMrx5rVBE)
+
 Stories
 ---
 Load applications from excel sheets
