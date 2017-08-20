@@ -13,11 +13,19 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
-		"Index",
+		"ApplicationIndex",
 		"GET",
-		"/",
-		Index,
+		"/applications",
+		ApplicationIndex,
 	},
+	/*
+		Route{
+			"Index",
+			"GET",
+			"/",
+			Index,
+		},
+	*/
 	Route{
 		"TodoIndex",
 		"GET",

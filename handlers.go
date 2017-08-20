@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -11,9 +10,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Welcome, fuckhead!\n")
+func ApplicationIndex(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(applications); err != nil {
+		panic(err)
+	}
 }
+
+//func Index(w http.ResponseWriter, r *http.Request) {
+//fmt.Fprint(w, "Welcome, fuckhead!\n")
+//}
 
 func TodoIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -65,7 +73,6 @@ func TodoCreate(w http.ResponseWriter, r *http.Request) {
 	if err := r.Body.Close(); err != nil {
 		panic(err)
 	}
-
 
 	if err := json.Unmarshal(body, &todo); err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")

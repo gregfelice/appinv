@@ -15,3 +15,5 @@
 
 # emacs save files
 *~
+
+*.xlsx

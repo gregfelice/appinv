@@ -2,21 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/tealeg/xlsx"
+	"log"
+	"net/http"
 )
 
+// shorthand print
+func p(s string) { fmt.Println(s) }
+
 func main() {
-	excelFileName := "./foo.xlsx"
-	xlFile, err := xlsx.OpenFile(excelFileName)
-	if err != nil {
-		fmt.Printf("error!!!")
-	}
-	for _, sheet := range xlFile.Sheets {
-		for _, row := range sheet.Rows {
-			for _, cell := range row.Cells {
-				text := cell.String()
-				fmt.Printf("%s\n", text)
-			}
-		}
-	}
+
+	p("calling main")
+
+	router := NewRouter()
+
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
