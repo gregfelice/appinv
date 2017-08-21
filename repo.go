@@ -1,16 +1,12 @@
 package main
 
-import (
-	"fmt"
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
-	"log"
-)
+import ()
 
 var currentId int
-
 var todos Todos
 var applications Applications
+
+//var applications Applications
 
 // Give us some seed data
 func init() {
@@ -18,10 +14,14 @@ func init() {
 	RepoCreateTodo(Todo{Name: "Host meetup"})
 
 	// load data from the database into applications
-	loadApplications()
+	//loadApplications()
 	// fmt.Printf("loaded applications: %s", applications)
 }
 
+/*
+preload applications from the database into memory for initial bs implementation
+*/
+/*
 func loadApplications() {
 
 	session, err := mgo.Dial("localhost")
@@ -47,10 +47,12 @@ func loadApplications() {
 
 	log.Printf("RunQuery : Count[%d]\n", len(applications))
 }
+*/
 
 /*
 return an application from the mongodb based on application name
 */
+/*
 func RepoFindApplication(id int) Application {
 
 	// establish session with database
@@ -74,6 +76,9 @@ func RepoFindApplication(id int) Application {
 	fmt.Println("Application Name:", result.ApplicationName)
 	return result
 }
+*/
+
+//////////////////////////////////////////////////////////
 
 func RepoFindTodo(id int) Todo {
 	for _, t := range todos {

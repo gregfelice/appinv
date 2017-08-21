@@ -18,14 +18,31 @@ var routes = Routes{
 		"/applications",
 		ApplicationIndex,
 	},
-	/*
-		Route{
-			"Index",
-			"GET",
-			"/",
-			Index,
-		},
-	*/
+	Route{
+		"ApplicationCreate",
+		"POST",
+		"/applications",
+		ApplicationCreate,
+	},
+	Route{
+		"ApplicationUpdate",
+		"PUT",
+		"/applications",
+		ApplicationUpdate,
+	},
+	Route{
+		"ApplicationShow",
+		"GET",
+		"/applications/{applicationId}",
+		ApplicationShow,
+	},
+	Route{
+		"ApplicationDestroy",
+		"GET",
+		"/applications/{applicationId}",
+		ApplicationDestroy,
+	},
+	/////////////////////
 	Route{
 		"TodoIndex",
 		"GET",

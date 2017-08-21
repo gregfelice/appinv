@@ -26,9 +26,11 @@ var apps = new Vue({
             axios.get('/applications')
                 .then(function(response){
                     //apps.message = response.data[0];
-                    apps.appdata =
-                        response.data[1].applicationname + " " +
-                        response.data[1].businessunit
+                    console.log(response.data)
+
+                    apps.appdata = response.data
+                        //response.data[1].applicationname + " " +
+                        //response.data[1].businessunit
                 })
                 .catch(function(error){
                     apps.appdata = 'An error ocurred.' + error;

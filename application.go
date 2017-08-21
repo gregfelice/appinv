@@ -1,8 +1,13 @@
 package main
 
+import (
+	"gopkg.in/mgo.v2/bson"
+)
+
 type Application struct {
-	ApplicationName string `json:"applicationname" bson:"applicationname"`
-	BusinessUnit    string `json:"businessunit"    bson:"businessunit"`
+	ID              bson.ObjectId `bson:"_id,omitempty"`
+	ApplicationName string        `json:"applicationname" bson:"applicationname"`
+	BusinessUnit    string        `json:"businessunit"    bson:"businessunit"`
 }
 
 type Applications []Application

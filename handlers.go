@@ -2,12 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-
-	"github.com/gorilla/mux"
 )
 
 func ApplicationIndex(w http.ResponseWriter, r *http.Request) {
@@ -19,9 +18,20 @@ func ApplicationIndex(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//func Index(w http.ResponseWriter, r *http.Request) {
-//fmt.Fprint(w, "Welcome, fuckhead!\n")
-//}
+func ApplicationCreate(w http.ResponseWriter, r *http.Request) {
+}
+
+func ApplicationUpdate(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func ApplicationDestroy(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func ApplicationShow(w http.ResponseWriter, r *http.Request) {
+
+}
 
 func TodoIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
