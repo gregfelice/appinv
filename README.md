@@ -1,7 +1,6 @@
 # Appinv - A system for managing applications and their underlying configuration items.
 
 We're using go on the backend, and vue on the front. Using mongo for the database.
-
 Just need to bang out the basic CRUD functions first, don't bother with spreadsheet view.
 
 ## Reference: Things Chosen
@@ -24,6 +23,14 @@ Just need to bang out the basic CRUD functions first, don't bother with spreadsh
 ## Reference: Alternatives Reviewed
 * [Alternative to Gorilla: REST services made easy in go with go-restful](https://github.com/emicklei/go-restful)
 * [go-restful example](http://ernestmicklei.com/2012/11/go-restful-first-working-example/)
+
+Log
+---
+#### Mon Aug 21 12:32:29 2017
+Done. OK - Moving the crud code from the unit test into a dao object.
+
+Next thing is to handle ErrNotFound conditions.
+
 
 Stories
 ---

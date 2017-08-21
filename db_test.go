@@ -11,6 +11,9 @@ get the database session.
 
 @see creating a global session variable
 https://stackoverflow.com/questions/40999637/mgo-query-performance-seems-consistently-slow-500-650ms/41000876#41000876
+
+tests against the new dao structure.
+
 */
 func getDbSessionForTest() *mgo.Session {
 	session, err := mgo.Dial("localhost")
@@ -41,57 +44,81 @@ func TestCRUDApplications(t *testing.T) {
 	})
 
 	t.Run("retrieve one by id", func(t *testing.T) {
-		// retrieve one by id
-		result := Application{}
-		err := c.Find(bson.M{"_id": id}).One(&result)
+		application := Application{}
+		err := RetrieveById(&application, id)
 		checkErr(err)
+		//t.Log(id)
+		//t.Log(application)
+		if application.ApplicationName != appName {
+			t.Fatal("app names dont match")
+		}
 		//t.Log("Application Name:", result.ApplicationName)
 	})
 
 	t.Run("retrieve one by name", func(t *testing.T) {
-		// retrieve one by name
-		result := Application{}
-		err := c.Find(bson.M{"applicationname": appName}).One(&result)
+		application := Application{}
+		err := RetrieveByApplicationName(&application, appName)
 		checkErr(err)
+		//t.Log(id)
+		//t.Log(application)
+		if application.ApplicationName != appName {
+			t.Fatal("app names dont match")
+		}
+		//t.Log("Application Name:", result.ApplicationName)
 	})
 
 	t.Run("retrieve many by business unit", func(t *testing.T) {
-		// retrieve several by business nunit
-		var applications []Application
-		err := c.Find(bson.M{"businessunit": bizUnit}).All(&applications)
+		applications := []Application{}
+		err := RetrieveByBusinessUnit(&applications, bizUnit)
+		//for _, app := range applications {
+		//t.Logf("returned app: %s", app)
+		//}
 		checkErr(err)
-		//t.Logf("RunQuery : Find by BizUnit Count[%d]\n", len(applications))
 	})
 
 	t.Run("retrieve all", func(t *testing.T) {
-		// retrieve all
-		var applications []Application
-		err := c.Find(bson.M{}).All(&applications)
+		applications := []Application{}
+		err := RetrieveAll(&applications)
+		//for _, app := range applications {
+		//	t.Logf("returned app: %s", app)
+		//}
 		checkErr(err)
-		//t.Logf("RunQuery : Find all Count[%d]\n", len(applications))
 	})
 
 	// update
 	t.Run("update existing app", func(t *testing.T) {
-		// t.Logf("changing %s", id)
-		q := bson.M{"_id": id}
-		s := "Changed App Name"
-		change := bson.M{"$set": bson.M{"applicationname": s}}
-		err := c.Update(q, change)
+		// get a copy of existing app
+		application := Application{}
+		err := RetrieveById(&application, id)
 		checkErr(err)
-		result := Application{}
-		err = c.Find(bson.M{"_id": id}).One(&result)
+		//t.Logf("retrieved existing app name before: %s", application.ApplicationName)
+		application.ApplicationName = "changed app name"
+		//t.Logf("application name changed, before persist: %s", application.ApplicationName)
+
+		err = Update(&application)
 		checkErr(err)
-		if result.ApplicationName != s {
-			t.Fatal("app name not changed successfully")
+
+		changedAndRetrievedApplication := Application{}
+		err = c.Find(bson.M{"_id": id}).One(&changedAndRetrievedApplication)
+		//t.Logf("retrieved, changed application name after persist: %s", changedAndRetrievedApplication.ApplicationName)
+		checkErr(err)
+
+		if application.ApplicationName != changedAndRetrievedApplication.ApplicationName {
+			t.Fatal("app names dont match")
 		}
+
 		// t.Log(result.ApplicationName)
 	})
 
 	// delete - also cleans all test records from the database for this test run.
 	t.Run("delete app", func(t *testing.T) {
-		err := c.Remove(bson.M{"_id": id})
+		err := Remove(id)
 		checkErr(err)
+		var app Application
+		t.Logf("uninitialized app: %s", app)
+		//err = RetrieveById(&app, id)
+		//checkErr(err)
+		//t.Logf("uninitialized app after query: %s", app)
 	})
 
 }

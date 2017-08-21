@@ -26,7 +26,6 @@ func getDbSession() *mgo.Session {
 }
 
 func Create(application Application) error {
-	// initialize db connection / session
 	session := getDbSession()
 	c := session.DB("test").C("applications")
 	defer session.Close()
@@ -35,8 +34,71 @@ func Create(application Application) error {
 	return err
 }
 
-func RetrieveById() error {
-	return nil
+func RetrieveById(application *Application, id bson.ObjectId) error {
+	session := getDbSession()
+	c := session.DB("test").C("applications")
+	err := c.Find(bson.M{"_id": id}).One(&application)
+	checkErr(err)
+	return err
+	//t.Log("Application Name:", result.ApplicationName)
+}
+
+func RetrieveByApplicationName(application *Application, name string) error {
+	session := getDbSession()
+	c := session.DB("test").C("applications")
+	err := c.Find(bson.M{"applicationname": name}).One(&application)
+	checkErr(err)
+	return err
+	//t.Log("Application Name:", result.ApplicationName)
+}
+
+/*
+accept a pointer to a slice that will contain any return values from the query.
+*/
+func RetrieveByBusinessUnit(applications *[]Application, name string) error {
+	session := getDbSession()
+	c := session.DB("test").C("applications")
+	err := c.Find(bson.M{"businessunit": name}).All(applications)
+	checkErr(err)
+	return err
+	//t.Log("Application Name:", result.ApplicationName)
+}
+
+/*
+accept a pointer to a slice that will contain any return values from the query.
+*/
+func RetrieveAll(applications *[]Application) error {
+	session := getDbSession()
+	c := session.DB("test").C("applications")
+	err := c.Find(bson.M{}).All(applications)
+	checkErr(err)
+	return err
+	//t.Log("Application Name:", result.ApplicationName)
+}
+
+/*
+take values from the struct and store to the database.
+*/
+func Update(application *Application) error {
+	// t.Logf("changing %s", id)
+	session := getDbSession()
+	c := session.DB("test").C("applications")
+	q := bson.M{"_id": application.ID}
+	change := bson.M{"$set": bson.M{
+		"applicationname": application.ApplicationName,
+		"businessunit":    application.BusinessUnit}}
+	err := c.Update(q, change)
+	checkErr(err)
+	return err
+	// t.Log(result.ApplicationName)
+}
+
+func Remove(id bson.ObjectId) error {
+	session := getDbSession()
+	c := session.DB("test").C("applications")
+	err := c.Remove(bson.M{"_id": id})
+	checkErr(err)
+	return err
 }
 
 func Foo() {
