@@ -26,10 +26,11 @@ Just need to bang out the basic CRUD functions first, don't bother with spreadsh
 
 Log
 ---
+#### Mon Aug 21 14:34:55 2017
+Next thing is to handle ErrNotFound conditions.
+
 #### Mon Aug 21 12:32:29 2017
 Done. OK - Moving the crud code from the unit test into a dao object.
-
-Next thing is to handle ErrNotFound conditions.
 
 
 Stories

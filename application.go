@@ -5,7 +5,7 @@ import (
 )
 
 type Application struct {
-	ID              bson.ObjectId `bson:"_id,omitempty"`
+	ID              bson.ObjectId `json:"id"              bson:"_id,omitempty"`
 	ApplicationName string        `json:"applicationname" bson:"applicationname"`
 	BusinessUnit    string        `json:"businessunit"    bson:"businessunit"`
 }

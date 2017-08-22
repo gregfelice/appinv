@@ -1,3 +1,2 @@
 
-go run error.go handlers.go logger.go main.go repo.go router.go routes.go todo.go xlsingester.go application.go
-
+go run application.go applicationdao.go error.go handlers.go logger.go main.go repo.go router.go routes.go todo.go util.go xlsingester.go

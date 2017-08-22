@@ -6,14 +6,24 @@ import (
 	"log"
 )
 
-// var DBSession *mgo.Session
-
 /*
-get the database session.
-
-@see creating a global session variable
+@todo creating a global session variable
 https://stackoverflow.com/questions/40999637/mgo-query-performance-seems-consistently-slow-500-650ms/41000876#41000876
 */
+
+/*
+bypassess any errors associated with record not found
+*/
+func checkDbErr(err error) {
+	if err != nil {
+		switch err {
+		default:
+			log.Fatal("Failed update application: ", err)
+		case mgo.ErrNotFound:
+			log.Println("Record not found")
+		}
+	}
+}
 
 func getDbSession() *mgo.Session {
 	session, err := mgo.Dial("localhost")
@@ -88,7 +98,7 @@ func Update(application *Application) error {
 		"applicationname": application.ApplicationName,
 		"businessunit":    application.BusinessUnit}}
 	err := c.Update(q, change)
-	checkErr(err)
+	checkDbErr(err)
 	return err
 	// t.Log(result.ApplicationName)
 }
