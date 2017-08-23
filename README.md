@@ -26,6 +26,8 @@ Just need to bang out the basic CRUD functions first, don't bother with spreadsh
 
 Log
 ---
+TEST LOG ENTRY
+
 #### Mon Aug 21 14:34:55 2017
 Next thing is to handle ErrNotFound conditions.
 
