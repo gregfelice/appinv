@@ -1,1 +1,5 @@
-go test -v
+go test -v appinv/dao
+go test -v appinv/util
+go test -v appinv/tonic
+
+

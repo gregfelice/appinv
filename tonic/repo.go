@@ -1,10 +1,9 @@
-package main
+package tonic
 
 import ()
 
 var currentId int
 var todos Todos
-var applications Applications
 
 //var applications Applications
 

@@ -1,4 +1,4 @@
-package main
+package tonic
 
 import (
 	"bytes"
@@ -6,6 +6,7 @@ import (
 	//"io"
 	"net/http"
 	//"os"
+	dao "appinv/dao"
 	"testing"
 )
 
@@ -26,7 +27,7 @@ func TestSVCApplications(t *testing.T) {
 
 	t.Run("create", func(t *testing.T) {
 
-		u := Application{ApplicationName: appName, BusinessUnit: bizUnit}
+		u := dao.Application{ApplicationName: appName, BusinessUnit: bizUnit}
 		b := new(bytes.Buffer)
 		json.NewEncoder(b).Encode(u)
 		res, _ := http.Post("http://localhost:8080/applications", "application/json; charset=utf-8", b)

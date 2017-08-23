@@ -1,6 +1,7 @@
 package main
 
 import (
+	t "appinv/tonic"
 	"fmt"
 	"github.com/gorilla/handlers"
 	"log"
@@ -19,7 +20,7 @@ func main() {
 
 	p("calling main")
 
-	router := NewRouter()
+	router := t.NewRouter()
 
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT"})

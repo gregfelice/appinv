@@ -1,2 +1,2 @@
 
-go run application.go applicationdao.go error.go handlers.go logger.go main.go repo.go router.go routes.go todo.go util.go xlsingester.go
+go run a_main.go

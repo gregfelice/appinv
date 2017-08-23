@@ -1,7 +1,8 @@
-package main
+package dao
 
 import (
 	"github.com/tealeg/xlsx"
+	"log"
 	s "strings"
 )
 
@@ -9,7 +10,7 @@ func IngestXLS(filename string) []Application {
 	excelFileName := filename
 	xlFile, err := xlsx.OpenFile(excelFileName)
 	if err != nil {
-		p("error!")
+		log.Fatal("error!")
 	}
 
 	apps := make([]Application, 0)

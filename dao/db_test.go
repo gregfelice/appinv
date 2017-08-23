@@ -1,6 +1,7 @@
-package main
+package dao
 
 import (
+	u "appinv/util"
 	mgo "gopkg.in/mgo.v2"
 	bson "gopkg.in/mgo.v2/bson"
 	"testing"
@@ -40,13 +41,13 @@ func TestCRUDApplications(t *testing.T) {
 		// create
 		app := Application{ID: id, ApplicationName: appName, BusinessUnit: bizUnit}
 		err := Create(app)
-		checkErr(err)
+		u.CheckErr(err)
 	})
 
 	t.Run("retrieve one by id", func(t *testing.T) {
 		application := Application{}
 		err := RetrieveById(&application, id)
-		checkErr(err)
+		u.CheckErr(err)
 		//t.Log(id)
 		//t.Log(application)
 		if application.ApplicationName != appName {
@@ -58,7 +59,7 @@ func TestCRUDApplications(t *testing.T) {
 	t.Run("retrieve one by name", func(t *testing.T) {
 		application := Application{}
 		err := RetrieveByApplicationName(&application, appName)
-		checkErr(err)
+		u.CheckErr(err)
 		//t.Log(id)
 		//t.Log(application)
 		if application.ApplicationName != appName {
@@ -73,7 +74,7 @@ func TestCRUDApplications(t *testing.T) {
 		//for _, app := range applications {
 		//t.Logf("returned app: %s", app)
 		//}
-		checkErr(err)
+		u.CheckErr(err)
 	})
 
 	t.Run("retrieve all", func(t *testing.T) {
@@ -82,7 +83,7 @@ func TestCRUDApplications(t *testing.T) {
 		//for _, app := range applications {
 		//	t.Logf("returned app: %s", app)
 		//}
-		checkErr(err)
+		u.CheckErr(err)
 	})
 
 	// update
@@ -90,18 +91,18 @@ func TestCRUDApplications(t *testing.T) {
 		// get a copy of existing app
 		application := Application{}
 		err := RetrieveById(&application, id)
-		checkErr(err)
+		u.CheckErr(err)
 		//t.Logf("retrieved existing app name before: %s", application.ApplicationName)
 		application.ApplicationName = "changed app name"
 		//t.Logf("application name changed, before persist: %s", application.ApplicationName)
 
 		err = Update(&application)
-		checkErr(err)
+		u.CheckErr(err)
 
 		changedAndRetrievedApplication := Application{}
 		err = c.Find(bson.M{"_id": id}).One(&changedAndRetrievedApplication)
 		//t.Logf("retrieved, changed application name after persist: %s", changedAndRetrievedApplication.ApplicationName)
-		checkErr(err)
+		u.CheckErr(err)
 
 		if application.ApplicationName != changedAndRetrievedApplication.ApplicationName {
 			t.Fatal("app names dont match")
@@ -113,11 +114,11 @@ func TestCRUDApplications(t *testing.T) {
 	// delete - also cleans all test records from the database for this test run.
 	t.Run("delete app", func(t *testing.T) {
 		err := Remove(id)
-		checkErr(err)
+		u.CheckErr(err)
 		var app Application
 		t.Logf("uninitialized app: %s", app)
 		//err = RetrieveById(&app, id)
-		//checkErr(err)
+		//u.CheckErr(err)
 		//t.Logf("uninitialized app after query: %s", app)
 	})
 

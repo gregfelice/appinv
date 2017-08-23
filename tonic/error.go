@@ -1,4 +1,4 @@
-package main
+package tonic
 
 type jsonErr struct {
 	Code int    `json:"code"`

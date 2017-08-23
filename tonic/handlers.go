@@ -1,6 +1,8 @@
-package main
+package tonic
 
 import (
+	dao "appinv/dao"
+	u "appinv/util"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io"
@@ -11,9 +13,9 @@ import (
 )
 
 func ApplicationIndex(w http.ResponseWriter, r *http.Request) {
-	applications := []Application{}
-	err := RetrieveAll(&applications)
-	checkErr(err)
+	applications := []dao.Application{}
+	err := dao.RetrieveAll(&applications)
+	u.CheckErr(err)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(applications); err != nil {
@@ -23,7 +25,7 @@ func ApplicationIndex(w http.ResponseWriter, r *http.Request) {
 
 func ApplicationCreate(w http.ResponseWriter, r *http.Request) {
 
-	var application Application
+	var application dao.Application
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
 	log.Printf("body: %s", body)
@@ -43,14 +45,14 @@ func ApplicationCreate(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	t := Create(application)
+	t := dao.Create(application)
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(t); err != nil {
 		panic(err)
 	}
-	checkErr(err)
+	u.CheckErr(err)
 }
 
 func ApplicationUpdate(w http.ResponseWriter, r *http.Request) {

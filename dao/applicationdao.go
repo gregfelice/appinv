@@ -1,6 +1,7 @@
-package main
+package dao
 
 import (
+	u "appinv/util"
 	mgo "gopkg.in/mgo.v2"
 	bson "gopkg.in/mgo.v2/bson"
 	"log"
@@ -40,7 +41,7 @@ func Create(application Application) error {
 	c := session.DB("test").C("applications")
 	defer session.Close()
 	err := c.Insert(application)
-	checkErr(err)
+	u.CheckErr(err)
 	return err
 }
 
@@ -48,7 +49,7 @@ func RetrieveById(application *Application, id bson.ObjectId) error {
 	session := getDbSession()
 	c := session.DB("test").C("applications")
 	err := c.Find(bson.M{"_id": id}).One(&application)
-	checkErr(err)
+	u.CheckErr(err)
 	return err
 	//t.Log("Application Name:", result.ApplicationName)
 }
@@ -57,7 +58,7 @@ func RetrieveByApplicationName(application *Application, name string) error {
 	session := getDbSession()
 	c := session.DB("test").C("applications")
 	err := c.Find(bson.M{"applicationname": name}).One(&application)
-	checkErr(err)
+	u.CheckErr(err)
 	return err
 	//t.Log("Application Name:", result.ApplicationName)
 }
@@ -69,7 +70,7 @@ func RetrieveByBusinessUnit(applications *[]Application, name string) error {
 	session := getDbSession()
 	c := session.DB("test").C("applications")
 	err := c.Find(bson.M{"businessunit": name}).All(applications)
-	checkErr(err)
+	u.CheckErr(err)
 	return err
 	//t.Log("Application Name:", result.ApplicationName)
 }
@@ -81,7 +82,7 @@ func RetrieveAll(applications *[]Application) error {
 	session := getDbSession()
 	c := session.DB("test").C("applications")
 	err := c.Find(bson.M{}).All(applications)
-	checkErr(err)
+	u.CheckErr(err)
 	return err
 	//t.Log("Application Name:", result.ApplicationName)
 }
@@ -107,7 +108,7 @@ func Remove(id bson.ObjectId) error {
 	session := getDbSession()
 	c := session.DB("test").C("applications")
 	err := c.Remove(bson.M{"_id": id})
-	checkErr(err)
+	u.CheckErr(err)
 	return err
 }
 
@@ -127,29 +128,29 @@ func Foo() {
 		&Application{ID: id, ApplicationName: appName, BusinessUnit: bizUnit},
 		&Application{ID: id2, ApplicationName: "App Bar", BusinessUnit: bizUnit},
 	)
-	checkErr(err)
+	u.CheckErr(err)
 
 	// retrieve one by id
 	result := Application{}
 	err = c.Find(bson.M{"_id": id}).One(&result)
-	checkErr(err)
+	u.CheckErr(err)
 	//t.Log("Application Name:", result.ApplicationName)
 
 	// retrieve one by name
 	result = Application{}
 	err = c.Find(bson.M{"applicationname": appName}).One(&result)
-	checkErr(err)
+	u.CheckErr(err)
 
 	// retrieve several by business nunit
 	var applications []Application
 	err = c.Find(bson.M{"businessunit": bizUnit}).All(&applications)
-	checkErr(err)
+	u.CheckErr(err)
 	//t.Logf("RunQuery : Find by BizUnit Count[%d]\n", len(applications))
 
 	// retrieve all
 	//var applications []Application
 	err = c.Find(bson.M{}).All(&applications)
-	checkErr(err)
+	u.CheckErr(err)
 	//t.Logf("RunQuery : Find all Count[%d]\n", len(applications))
 
 	// update
@@ -159,10 +160,10 @@ func Foo() {
 	s := "Changed App Name"
 	change := bson.M{"$set": bson.M{"applicationname": s}}
 	err = c.Update(q, change)
-	checkErr(err)
+	u.CheckErr(err)
 	result = Application{}
 	err = c.Find(bson.M{"_id": id}).One(&result)
-	checkErr(err)
+	u.CheckErr(err)
 	if result.ApplicationName != s {
 		log.Fatal("app name not changed successfully")
 	}
@@ -170,8 +171,8 @@ func Foo() {
 
 	// delete - also cleans all test records from the database for this test run.
 	err = c.Remove(bson.M{"_id": id})
-	checkErr(err)
+	u.CheckErr(err)
 	err = c.Remove(bson.M{"_id": id2})
-	checkErr(err)
+	u.CheckErr(err)
 
 }

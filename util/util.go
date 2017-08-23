@@ -1,10 +1,10 @@
-package main
+package util
 
 import (
 	"log"
 )
 
-func checkErr(err error) {
+func CheckErr(err error) {
 	if err != nil {
 		log.Fatal("ERROR:", err)
 	}

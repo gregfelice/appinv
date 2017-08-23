@@ -1,4 +1,4 @@
-package main
+package tonic
 
 import "net/http"
 
